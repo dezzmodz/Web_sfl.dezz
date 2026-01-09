@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AFIF X STORE</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  font-family:'Orbitron',sans-serif;
+}
+
+/* BACKGROUND */
+body{
+  background:
+    linear-gradient(rgba(5,0,20,.75), rgba(5,0,20,.9)),
+    url('bg.jpg') center/cover no-repeat fixed;
+  color:#fff;
+}
+
+/* CONTAINER */
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:40px 20px 60px;
+  text-align:center;
+}
+
+/* TITLE */
+.header{
+  font-size:28px;
+  font-weight:700;
+  color:#4dfcff;
+  text-shadow:0 0 15px #4dfcff;
+  margin-bottom:6px;
+}
+.sub{
+  font-size:13px;
+  opacity:.85;
+  margin-bottom:30px;
+}
+
+/* BUTTON */
+.btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:16px;
+  margin:14px 0;
+  border-radius:45px;
+  text-decoration:none;
+  color:#eaffff;
+  font-weight:700;
+  letter-spacing:.6px;
+
+  background:rgba(20,0,40,.55);
+  border:2px solid #8a4dff;
+  box-shadow:
+    0 0 18px rgba(138,77,255,.8),
+    inset 0 0 12px rgba(77,252,255,.35);
+
+  backdrop-filter: blur(6px);
+  transition:.25s;
+}
+.btn:hover{
+  transform:scale(1.05);
+  box-shadow:
+    0 0 30px rgba(77,252,255,1),
+    inset 0 0 18px rgba(138,77,255,.6);
+}
+
+/* FOOTER */
+.footer{
+  margin-top:35px;
+  font-size:12px;
+  opacity:.65;
+}
+
+/* MUSIC BUTTON */
+.music-btn{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  padding:10px 16px;
+  border-radius:30px;
+  background:rgba(20,0,40,.8);
+  border:2px solid #8a4dff;
+  color:#4dfcff;
+  font-family:'Orbitron',sans-serif;
+  font-weight:700;
+  box-shadow:0 0 15px #4dfcff;
+  cursor:pointer;
+  z-index:999;
+}
+.music-btn:hover{
+  box-shadow:0 0 25px #8a4dff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="header">AFIF X STORE</div>
+  <div class="sub">Jasa Digital • Support Creator</div>
+
+  <a class="btn" href="https://wa.me/6281252280330?text=HALO%20ADMIN%20" target="_blank">
+     WhatsApp Admin
+  </a>
+
+  <a class="btn" href="https://whatsapp.com/channel/0029Vb7VhXNJZg3zpOw07Q06" target="_blank">
+     Saluran WhatsApp
+  </a>
+
+  <a class="btn" href="https://chat.whatsapp.com/LO5ZKB6mHjOCmslH2lCI08" target="_blank">
+     Grup WhatsApp
+  </a>
+
+  <a class="btn" href="https://t.me/AFIFXSTORE" target="_blank">
+     Telegram
+  </a>
+
+  <a class="btn" href="https://www.tiktok.com/@afif.nailghany8" target="_blank">
+     TikTok
+  </a>
+
+  <a class="btn" href="https://sociabuzz.com/afif_x_store" target="_blank">
+     Donasi / Support
+  </a>
+
+  <a class="btn" href="https://wa.me/6281252280330?text=Halo%20Admin,%20saya%20mau%20JASGEN%20MURNI%20" target="_blank">
+     JASGEN MURNI
+  </a>
+
+  <a class="btn" href="https://wa.me/6281252280330?text=Halo%20Admin,%20saya%20mau%20BUY%20AKUN%20MURAH%20" target="_blank">
+     JUAL AKUN MURAH
+  </a>
+
+  <div class="footer">
+    © AFIF X STORE • All Rights Reserved
+  </div>
+</div>
+
+<!-- MUSIC -->
+<audio id="bgm" loop>
+  <source src="https://files.catbox.moe/2ntgsx.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicBtn" class="music-btn"> MUSIC ON</button>
+
+<script>
+const bgm = document.getElementById("bgm");
+const btn = document.getElementById("musicBtn");
+let play = false;
+
+btn.onclick = () => {
+  if(!play){
+    bgm.volume = 0.5;
+    bgm.play();
+    btn.innerText = " MUSIC OFF";
+  }else{
+    bgm.pause();
+    btn.innerText = " MUSIC ON";
+  }
+  play = !play;
+};
+</script>
+
+</body>
+</html>
