@@ -1,177 +1,312 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AFIF X STORE</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Saya - Contoh Safelinku</title><!-- ===== STYLE SEDERHANA ===== -->
 <style>
-*{box-sizing:border-box}
-html,body{
-  margin:0;
-  padding:0;
-  min-height:100%;
-  font-family:'Orbitron',sans-serif;
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: white;
+    background: linear-gradient(270deg,#020617,#0f172a,#020617);
+    background-size: 600% 600%;
+    animation: bgMove 18s ease infinite;
 }
 
-/* BACKGROUND */
-body{
-  background:
-    linear-gradient(rgba(5,0,20,.75), rgba(5,0,20,.9)),
-    url('bg.jpg') center/cover no-repeat fixed;
-  color:#fff;
+@keyframes bgMove {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+#bg{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
 }
 
-/* CONTAINER */
-.container{
-  max-width:420px;
-  margin:auto;
-  padding:40px 20px 60px;
-  text-align:center;
+    header {
+    background: rgba(2,6,23,0.7);
+    padding: 25px;
+    border-bottom: 1px solid rgba(59,130,246,0.3);
+    box-shadow:
+        0 0 15px rgba(59,130,246,0.4),
+        0 0 40px rgba(79,70,229,0.25);
+    backdrop-filter: blur(10px);
 }
 
-/* TITLE */
-.header{
-  font-size:28px;
-  font-weight:700;
-  color:#4dfcff;
-  text-shadow:0 0 15px #4dfcff;
-  margin-bottom:6px;
-}
-.sub{
-  font-size:13px;
-  opacity:.85;
-  margin-bottom:30px;
+header {
+    background: rgba(2,6,23,0.7);
+    padding: 25px;
+    border-bottom: 1px solid rgba(59,130,246,0.4);
+    box-shadow:
+        0 0 20px rgba(59,130,246,0.6),
+        0 0 45px rgba(0,191,255,0.35);
+    backdrop-filter: blur(10px);
 }
 
-/* BUTTON */
-.btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:16px;
-  margin:14px 0;
-  border-radius:45px;
-  text-decoration:none;
-  color:#eaffff;
-  font-weight:700;
-  letter-spacing:.6px;
-
-  background:rgba(20,0,40,.55);
-  border:2px solid #8a4dff;
-  box-shadow:
-    0 0 18px rgba(138,77,255,.8),
-    inset 0 0 12px rgba(77,252,255,.35);
-
-  backdrop-filter: blur(6px);
-  transition:.25s;
-}
-.btn:hover{
-  transform:scale(1.05);
-  box-shadow:
-    0 0 30px rgba(77,252,255,1),
-    inset 0 0 18px rgba(138,77,255,.6);
+header h1 {
+    margin: 0;
+    font-size: 28px;
+    text-shadow:
+        0 0 10px #3b82f6,
+        0 0 25px #00cfff;
 }
 
-/* FOOTER */
-.footer{
-  margin-top:35px;
-  font-size:12px;
-  opacity:.65;
+main {
+    padding: 40px;
 }
 
-/* MUSIC BUTTON */
-.music-btn{
-  position:fixed;
-  bottom:18px;
-  right:18px;
-  padding:10px 16px;
-  border-radius:30px;
-  background:rgba(20,0,40,.8);
-  border:2px solid #8a4dff;
-  color:#4dfcff;
-  font-family:'Orbitron',sans-serif;
-  font-weight:700;
-  box-shadow:0 0 15px #4dfcff;
-  cursor:pointer;
-  z-index:999;
+a.download-btn {
+    display: block;
+    width: 280px;
+    margin: 10px auto;
+    padding: 16px 24px;
+    background: linear-gradient(135deg,#2563eb,#00cfff);
+    color: white;
+    text-decoration: none;
+    border-radius: 14px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 25px rgba(0,191,255,0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
-.music-btn:hover{
-  box-shadow:0 0 25px #8a4dff;
+
+/* efek kilap */
+a.download-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.5),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+a.download-btn:hover::before {
+    left: 100%;
+}
+
+/* hover glow biru */
+a.download-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow:
+        0 0 20px #3b82f6,
+        0 0 45px #00cfff;
+}
+
+
+@keyframes pulseGlow{
+    0%{box-shadow:0 0 12px #3b82f6;}
+    50%{box-shadow:0 0 35px #00cfff;}
+    100%{box-shadow:0 0 12px #3b82f6;}
+}
+
+a.download-btn{
+    animation:pulseGlow 3s infinite;
 }
 </style>
-</head>
 
-<body>
-
-<div class="container">
-  <div class="header">AFIF X STORE</div>
-  <div class="sub">Jasa Digital • Support Creator</div>
-
-  <a class="btn" href="https://wa.me/6281252280330?text=HALO%20ADMIN%20" target="_blank">
-     WhatsApp Admin
-  </a>
-
-  <a class="btn" href="https://whatsapp.com/channel/0029Vb7VhXNJZg3zpOw07Q06" target="_blank">
-     Saluran WhatsApp
-  </a>
-
-  <a class="btn" href="https://chat.whatsapp.com/LO5ZKB6mHjOCmslH2lCI08" target="_blank">
-     Grup WhatsApp
-  </a>
-
-  <a class="btn" href="https://t.me/AFIFXSTORE" target="_blank">
-     Telegram
-  </a>
-
-  <a class="btn" href="https://www.tiktok.com/@afif.nailghany8" target="_blank">
-     TikTok
-  </a>
-
-  <a class="btn" href="https://sociabuzz.com/afif_x_store" target="_blank">
-     Donasi / Support
-  </a>
-
-  <a class="btn" href="https://wa.me/6281252280330?text=Halo%20Admin,%20saya%20mau%20JASGEN%20MURNI%20" target="_blank">
-     JASGEN MURNI
-  </a>
-
-  <a class="btn" href="https://wa.me/6281252280330?text=Halo%20Admin,%20saya%20mau%20BUY%20AKUN%20MURAH%20" target="_blank">
-     JUAL AKUN MURAH
-  </a>
-
-  <div class="footer">
-    © AFIF X STORE • All Rights Reserved
-  </div>
-</div>
-
-<!-- MUSIC -->
-<audio id="bgm" loop>
-  <source src="https://files.catbox.moe/2ntgsx.mp3" type="audio/mpeg">
-</audio>
-
-<button id="musicBtn" class="music-btn"> MUSIC ON</button>
-
-<script>
-const bgm = document.getElementById("bgm");
-const btn = document.getElementById("musicBtn");
-let play = false;
-
-btn.onclick = () => {
-  if(!play){
-    bgm.volume = 0.5;
-    bgm.play();
-    btn.innerText = " MUSIC OFF";
-  }else{
-    bgm.pause();
-    btn.innerText = " MUSIC ON";
-  }
-  play = !play;
-};
+<!-- ===== SCRIPT SAFELINKU ===== -->
+<!-- GANTI API TOKEN DI BAWAH INI -->
+<script type="text/javascript">
+    var go_url = 'https://sfl.gl/';
+    var api = '75a1ae514a36f53d1909cc9f25969eec800bde35'; // ← Tambahkan API token kamu
+    var shorten_includ = [
+  "sfl.gl",
+  "www.youtube.com", 
+  "tiktok.com", 
+  "t.me", 
+  "safefileku.com",
+  "whatsapp.com"
+];
 </script>
+<script src="//safelinku.com/js/web-script.js"></script>
+<canvas id="bg"></canvas>
 
+</head>
+<body><header>
+
+
+
+    <h1>Website Download Saya</h1>
+    <p>Safelinku Versi DezZ</p>
+</header><main>
+    <h2>Download File</h2>
+    <p>Klik tombol di bawah untuk download.</p><!-- CONTOH LINK YANG AKAN TERKENA SAFELINKU -->
+<div class="btn-group">
+    <a class="download-btn" href="https://whatsapp.com/channel/0029Vb7Gl23EFeXuLGF1yB1G" target="_blank">
+        SALURAN
+    </a>
+    <a class="download-btn" href="https://t.me/+nmDgMfjt-t9jYzA1" target="_blank">
+        TELEGRAM
+    </a>
+    <a class="download-btn" href="https://tiktok.com/@dezz_realmods" target="_blank">
+        TIKTOK
+    </a>
+    <a class="download-btn" href="https://www.youtube.com/@DezZXMods" target="_blank">
+        YOUTUBE
+    </a>
+</main><footer>
+    <p>© 2026 -Dezz</p>   
+    <script>
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+const TOTAL = 200;
+
+let mouse = {
+  x:null,
+  y:null,
+  active:false
+};
+
+window.addEventListener("mousemove", e=>{
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  mouse.active = true;
+});
+
+window.addEventListener("mouseleave", ()=>{
+  mouse.active = false;
+});
+
+// pusat vortex
+const center = {
+  x: canvas.width/5,
+  y: canvas.height/5
+};
+
+class Particle{
+  constructor(){
+    this.reset();
+  }
+
+  reset(){
+    this.x = Math.random()*canvas.width;
+    this.y = Math.random()*canvas.height;
+
+    this.size = 6; // ✅ ukuran tetap
+
+    this.angle = Math.random()*Math.PI*999;
+    this.radius = 80 + Math.random()*250;
+    this.speed = 0.002 + Math.random()*0.002;
+
+    // velocity supaya tetap hidup
+    this.vx = (Math.random()-1000)*1000;
+    this.vy = (Math.random()-1000)*1000;
+  }
+
+  update(){
+
+    // ===== vortex halus (tidak menyedot) =====
+    this.angle += this.speed;
+
+    let targetX = center.x + Math.cos(this.angle)*this.radius;
+    let targetY = center.y + Math.sin(this.angle)*this.radius;
+
+    this.vx += (targetX - this.x)*100;
+    this.vy += (targetY - this.y)*100;
+
+    // ===== efek mouse repel =====
+    if(mouse.active){
+      let dx = this.x - mouse.x;
+      let dy = this.y - mouse.y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+
+      if(dist < 120){
+        this.vx += dx/dist * 0,5;
+        this.vy += dy/dist * 0,5;
+      }
+    }
+
+    // batas speed biar smooth
+    const maxSpeed = 0.5;
+    this.vx = Math.max(-maxSpeed, Math.min(maxSpeed, this.vx));
+    this.vy = Math.max(-maxSpeed, Math.min(maxSpeed, this.vy));
+
+    this.x += this.vx;
+    this.y += this.vy;
+
+    // loop layar
+    if(this.x < 0) this.x = canvas.width;
+    if(this.x > canvas.width) this.x = 0;
+    if(this.y < 0) this.y = canvas.height;
+    if(this.y > canvas.height) this.y = 0;
+  }
+
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.size,0,Math.PI*999);
+    ctx.fillStyle="#a855f7";
+ctx.shadowBlur=18;
+ctx.shadowColor="#a855f7";
+    ctx.fill();
+  }
+}
+
+// buat partikel
+for(let i=0;i<TOTAL;i++){
+  particles.push(new Particle());
+}
+
+// garis koneksi neon
+function connect(){
+  for(let a=0;a<particles.length;a++){
+    for(let b=a;b<particles.length;b++){
+      let dx = particles[a].x - particles[b].x;
+      let dy = particles[a].y - particles[b].y;
+      let dist = dx*dx + dy*dy;
+
+      if(dist < 9000){
+        ctx.strokeStyle="rgba(0,247,255,0.15)";
+        ctx.lineWidth=3;
+        ctx.beginPath();
+        ctx.moveTo(particles[a].x,particles[a].y);
+        ctx.lineTo(particles[b].x,particles[b].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach(p=>{
+    p.update();
+    p.draw();
+  });
+
+  connect();
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize",()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  center.x = canvas.width/5;
+  center.y = canvas.height/5;
+});
+</script>
+</footer>
 </body>
 </html>
