@@ -1,11 +1,831 @@
-<!DOCTYPE html><html lang="id">
+<!doctype html>
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website HOLOGRAM</title><!-- ===== STYLE SEDERHANA ===== -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>DezZxMods-Web</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+/* ===============================
+   VARIABLES / THEME
+================================ */
+:root {
+  --bg-1: #0b1116;
+  --bg-2: #0f1a21;
+  --accent: #7dff7d;
+  --card: rgba(0,0,0,0.55);
+  --glass: rgba(255,255,255,0.04);
+  --neon-color: #00ffcc;
+}
 
-/* ===== BODY ===== */
+/* ===============================
+   GLOBAL STYLES
+================================ */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(555deg, var(--bg-1), var(--bg-2));
+  color: var(--accent);
+  transition: background 5000ms ease;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* ===============================
+   BACKGROUND ANIMATION
+================================ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(120deg, var(--bg-1), var(--bg-2), var(--accent));
+  background-size: 900% 900%;
+  animation: bgMove 20s ease infinite;
+}
+
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===============================
+   LAYOUT
+================================ */
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px;
+}
+
+.card {
+  width: 900%;
+  max-width: 1100px;
+  min-height: 100vh;
+  border-radius: 16px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.55));
+  border: 2px solid rgba(127,255,150,0.06);
+  box-shadow: 0 12px 60px rgba(0,0,0,0.6);
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 16px;
+  backdrop-filter: blur(4px);
+}
+
+@media (max-width: 700px) {
+  .card {
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+    border-radius: 10px;
+    padding: 12px;
+  }
+}
+
+/* ===============================
+   KEY DISPLAY / CARD
+================================ */
+.key-display {
+  margin-top: 12px;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--card);
+  font-size: 20px;
+  font-weight: 800;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  flex-direction: column;
+  color: var(--accent);
+  box-shadow: 0 0 15px rgba(0,255,150,0.35);
+  backdrop-filter: blur(4px) saturate(1.2);
+}
+
+/* ===============================
+   BUTTONS & CONTROLS
+================================ */
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+button, .btn {
+  background: var(--accent);
+  color: #000;
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(127,255,150,0.08);
+  color: var(--accent);
+  backdrop-filter: blur(2px);
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(125,255,125,0.8);
+}
+
+/* ===============================
+   PROGRESS BAR
+================================ */
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), var(--accent));
+  transition: width 250ms linear;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+
+/* ===============================
+   ADMIN NOTE / OVERLAY
+================================ */
+.admin-note-overlay {
+  position: fixed;
+  bottom: 0px;
+  right: 150px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  z-index: 9999;
+  box-shadow: 0 0 20px rgba(125,255,125,0.8), 0 0 40px rgba(125,255,125,0.4);
+
+  /* Animated gradient neon background */
+  background: linear-gradient(270deg, #00ffcc, #7dff7d, #00c8ff, #7dff7d);
+  background-size: 800% 800%;
+  animation: neonOverlayBG 8s ease infinite;
+
+  /* Glassy effect */
+  backdrop-filter: blur(6px) saturate(1.4);
+  -webkit-backdrop-filter: blur(6px) saturate(1.4);
+
+  transition: transform 0.2s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.admin-note-overlay:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 35px rgba(125,255,125,1), 0 0 70px rgba(125,255,125,0.5);
+  color: #00ffcc;
+}
+
+.admin-note-overlay:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 0 15px rgba(125,255,125,0.5), 0 0 30px rgba(125,255,125,0.25);
+}
+
+@keyframes neonOverlayBG {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 100%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 0%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===============================
+   NEON STRIKE / TITLE
+================================ */
+.neon-title {
+  font-size: 18px;
+  font-weight: 900;
+  text-align: center;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(0,255,150,0.18), 0 0 30px rgba(0,255,150,0.08);
+  animation: titleBlink 5s infinite;
+}
+
+@keyframes titleBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* ===============================
+   RESPONSIVENESS
+================================ */
+@media (max-width: 700px) {
+  .key-display {
+    min-height: 160px;
+  }
+
+  .admin-note-overlay {
+    right: 20px;
+    bottom: 20px;
+  }
+}
+ /* ===============================
+   SOCIAL LINKS + NEON ANIMATION
+================================ */
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* Tombol utama */
+.links-grid a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #2b1a3f, #3f1a6f);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Gradient shimmer halus */
+.links-grid a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0.05), rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+  background-size: 200% 100%;
+  border-radius: 50px;
+  z-index: 0;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Teks & icon tetap di atas */
+.links-grid a * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover animasi */
+.links-grid a:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+/* Klik / active animasi */
+.links-grid a:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 12px 30px rgba(255,255,255,0.3);
+  animation: clickFlash 0.3s ease;
+}
+
+/* Animasi shimmer */
+@keyframes shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Animasi klik flash ringan */
+@keyframes clickFlash {
+  0% { box-shadow: 0 12px 30px rgba(255,255,255,0.3); }
+  50% { box-shadow: 0 12px 40px rgba(255,255,255,0.6); }
+  100% { box-shadow: 0 12px 30px rgba(255,255,255,0.3); }
+}
+
+/* ===============================
+   ADMIN NOTE UPGRADE IBLISTITAN
+================================ */
+.admin-note{
+  margin-top:10px;
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:700;
+  text-align:center;
+
+  color:#bfffe8;
+  border-radius:8px;
+  background:rgba(0,255,150,.15);
+  box-shadow:0 0 10px rgba(0,255,150,.35);
+}
+
+/* ===============================
+   MODAL OVERLAY
+================================ */
+.modal-wrap{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+  pointer-events:none;
+}
+
+/* ===============================
+   MODAL BOX + GLOW PULSE
+================================ */
+.modal{
+  min-width:320px;
+  max-width:780px;
+  background:linear-gradient(
+    180deg,
+    rgba(0,0,0,0.75),
+    rgba(0,0,0,0.5)
+  );
+  border-radius:12px;
+  padding:18px;
+  border:1px solid rgba(255,255,255,0.04);
+  box-shadow:0 0 20px rgba(0,255,150,.18);
+  transform:scale(.95);
+  opacity:0;
+  transition:all 300ms ease;
+  pointer-events:auto;
+  animation:modalGlow 5s ease-in-out infinite;
+}
+
+@keyframes modalGlow{
+  0%{box-shadow:0 0 18px rgba(0,255,150,.15)}
+  50%{box-shadow:0 0 40px rgba(0,255,150,.35)}
+  100%{box-shadow:0 0 18px rgba(0,255,150,.15)}
+}
+
+/* Modal active */
+.modal-wrap.show{
+  pointer-events:auto;
+}
+.modal.show{
+  transform:scale(1);
+  opacity:1;
+}
+
+/* ===============================
+   NEON TITLE BLINK
+================================ */
+.neon-title{
+  font-size:18px;
+  font-weight:900;
+  text-align:center;
+  color:var(--accent);
+  text-shadow:
+    0 0 12px rgba(0,255,150,0.18),
+    0 0 30px rgba(0,255,150,0.08);
+  animation:titleBlink 5s infinite;
+}
+
+@keyframes titleBlink{
+  0%,100%{opacity:1}
+  50%{opacity:.6}
+}
+
+/* ===============================
+   KEY DISPLAY SCAN EFFECT
+================================ */
+.modal-key{
+  position:relative;
+  font-family: monospace;
+  margin: 20px 0;
+  padding: 30px;
+  border-radius: 20px;
+  background: linear-gradient(90deg,#bfffbf,var(--accent));
+  text-align: center;
+  font-size: 15px;
+  color: #000;
+  box-shadow: 0 0 30px rgba(0,255,150,0.35);
+  overflow:hidden;
+}
+
+.modal-key::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  height:30%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(255,255,255,.6),
+    transparent
+  );
+  animation:keyScan 2.3s infinite;
+}
+
+@keyframes keyScan{
+  0%{transform:translateY(-120%)}
+  100%{transform:translateY(220%)}
+}
+
+  /* ===== FIX TEKS KELUAR ===== */
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;}
+  .modal-meta{font-size:1px;opacity:0.85;text-align:center;margin-top:6px}
+  .neon-glow{box-shadow:0 6px 28px rgba(0,255,150,0.12), 0 0 80px rgba(0,255,150,0.06)}
+  .flex-center{display:flex;align-items:center;gap:8px}
+
+  /* neon clock */
+  .neon-clock { font-family: 'Orbitron', sans-serif; font-weight:700; font-size:14px; color:var(--accent);
+    text-shadow:0 0 6px rgba(125,255,125,0.9),0 0 12px rgba(125,255,125,0.6),0 0 20px rgba(125,255,125,0.35); opacity:0.95; white-space:nowrap; pointer-events:none;}
+  #clockTopWrap { position: fixed; top: 12px; right: 18px; z-index:12000; display:flex; align-items:center; gap:10px; }
+
+  /* ===============================
+   LOGIN OVERLAY ANIMASI
+================================ */
+  .login-overlay{
+  position:fixed;
+  inset:0;
+  background: rgba(255,255,255,0.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+/* card putih */
+.login-card{
+  width:360px;
+  padding:18px;
+  border-radius:14px;
+  background:#ffffff;
+  border:1px solid #e0e0e0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  position:relative;
+}
+
+/* hapus efek kaca */
+.login-card::before{
+  display:none;
+}
+
+/* title */
+.login-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#111;
+  font-weight:700;
+}
+
+/* input putih */
+.glass-input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  background:#fff;
+  color:#111;
+  box-sizing:border-box;
+  font-weight:600;
+}
+
+.glass-input:focus{
+  outline:none;
+  border-color:#999;
+  box-shadow:none;
+}
+
+/* catatan */
+.login-note{
+  font-size:13px;
+  color:#555;
+  margin-top:8px;
+}
+
+  /* ====== NEON STRIKE & BLINK (looping) ====== */
+  .neon-strike {
+    position: relative;
+    display: inline-block;
+    color: #00eaff; /* teks neon color */
+    text-shadow: 0 0 13px #00eaff, 0 0 12px #00eaff;
+    font-weight: 1000;
+    /* blinking text (subtle) */
+    animation: neonTextBlink 1.5s linear infinite;
+  }
+
+  @keyframes neonTextBlink {
+    0% { opacity: 1; filter: drop-shadow(0 0 6px #00eaff); }
+    50% { opacity: 0.7; filter: drop-shadow(0 0 3px #00eaff); }
+    100% { opacity: 1; filter: drop-shadow(0 0 6px #00eaff); }
+  }
+
+  @keyframes neonStrikeBlink {
+    0% { opacity: 1; width: 100%; transform: translateY(-50%) scaleX(1); }
+    50% { opacity: 0.45; transform: translateY(-50%) scaleX(0.98); }
+    100% { opacity: 1; transform: translateY(-50%) scaleX(1); }
+  }
+
+  /* ====== SIMPLE POPUP/TOAST ====== */
+  .toast {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    bottom: 400px;
+    background: rgba(0,0,0,0.9);
+    color: #00eaff;
+    padding: 25px 25px;
+    border-radius: 10px;
+    display: none;
+    z-index: 20000;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6), 0 0 12px #00eaff;
+    font-weight: 900;
+  }
+  .toast.show {
+    display: block;
+    animation: toastIn 0.28s ease;
+  }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(30px) scale(.98); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  }
+  .login-avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: drop-shadow(0 6px 18px rgba(125,255,125,0.20));
+  border: 2px solid rgba(125,255,125,0.9);
+}
+  .title-icon {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+  filter: drop-shadow(0 4px 10px rgba(0,255,150,0.35));
+  border: 2px solid rgba(0,255,150,0.8);
+}
+<sstyle
+
+body{
+  background:#0e0e0e;
+  color:#ffffff;
+}
+
+.login-card,
+.card,
+.toast{
+  background: rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.15);
+  color:#ffffff;
+}
+
+button,
+.login-btn,
+.card-btn{
+  background:#ffffff;
+  color:#000000;
+}
+
+#statusBox{
+  position: fixed;
+  top: 785px;
+  right: 10px;
+  z-index: 9999;
+  font-family: monospace;
+  font-size: 13px;
+  color: #00ffcc;
+  background: rgba(0,0,0,0.6);
+  padding: 6px 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00ffcc;
+}
+
+.card-side{
+  display:flex;
+  gap:12px;
+  background:rgba(0,0,0,0.5);
+  padding:12px;
+  border-radius:12px;
+  align-items:center;
+}
+
+.card-img{
+  width:90px;
+  border-radius:10px;
+}
+
+.card-text h3{
+  margin:0;
+  font-size:15px;
+}
+
+.card-text p{
+  margin:4px 0 8px;
+  font-size:13px;
+  opacity:0.9;
+}
+
+.card-btn{
+  display:inline-block;
+  padding:6px 12px;
+  font-size:12px;
+  font-weight:700;
+  border-radius:8px;
+  background:#7dff7d;
+  color:#000;
+  text-decoration:none;
+  box-shadow:0 0 12px rgba(125,255,125,0.6);
+  transition:0.2s;
+}
+
+.card-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px rgba(125,255,125,0.9);
+}
+
+.card-text h3 { margin:0 0 6px 0; font-size:16px; color: #7dff7d; }
+.card-text p { margin:0; font-size:14px; color: #ccc; }
+
+.admin-note-overlay {
+  position: fixed;
+  bottom: 0px;
+  right: 150px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  z-index: 9999;
+  box-shadow: 0 0 20px rgba(125,255,125,0.8), 0 0 40px rgba(125,255,125,0.4);
+
+  /* Animated gradient neon background */
+  background: linear-gradient(270deg, #00ffcc, #7dff7d, #00c8ff, #7dff7d);
+  background-size: 800% 800%;
+  animation: neonOverlayBG 8s ease infinite;
+
+  /* glassy effect */
+  backdrop-filter: blur(6px) saturate(1.4);
+  -webkit-backdrop-filter: blur(6px) saturate(1.4);
+
+  /* smooth transition */
+  transition: transform 0.2s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect */
+.admin-note-overlay:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 35px rgba(125,255,125,1), 0 0 70px rgba(125,255,125,0.5);
+  color: #00ffcc;
+}
+
+/* Click / active effect */
+.admin-note-overlay:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 0 15px rgba(125,255,125,0.5), 0 0 30px rgba(125,255,125,0.25);
+}
+
+/* Gradient animation */
+@keyframes neonOverlayBG {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 100%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 0%; }
+  100% { background-position: 0% 50%; }
+}
+
+.admin-board{
+  margin-top:16px;
+  padding:16px;
+  border-radius:14px;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0.75),
+    rgba(0,0,0,0.55)
+  );
+  border:1px solid rgba(125,255,125,0.25);
+  box-shadow:
+    0 0 18px rgba(125,255,125,0.35),
+    inset 0 0 25px rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px);
+  position:relative;
+}
+
+/* garis neon papan */
+.admin-board::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:14px;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(125,255,125,0.35),
+    transparent
+  );
+  opacity:.6;
+  animation: boardScan 4s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes boardScan{
+  0%{background-position:-200% 0}
+  100%{background-position:200% 0}
+}
+
+/* judul papan */
+.admin-board-title{
+  font-size:13px;
+  font-weight:900;
+  color:#7dff7d;
+  margin-bottom:10px;
+  text-shadow:0 0 8px rgba(125,255,125,0.7);
+}
+
+/* isi teks */
+.admin-board-body{
+  font-size:13px;
+  line-height:1.6;
+  color:#eaffea;
+  margin-bottom:10px;
+}
+
+/* highlight */
+.admin-board .hl{
+  color:#7dff7d;
+  font-weight:800;
+  text-shadow:0 0 6px rgba(125,255,125,0.6);
+}
+
+/* footer / kontak */
+.admin-board-footer{
+  font-size:12px;
+  color:#bfffe8;
+  border-top:1px dashed rgba(125,255,125,0.25);
+  padding-top:8px;
+}
+
+.admin-board-footer a{
+  color:#7dff7d;
+  text-decoration:none;
+  font-weight:800;
+}
+
+.admin-board-footer a:hover{
+  text-shadow:0 0 8px rgba(125,255,125,0.8);
+}
+
+.main-title {
+  font-size: 24px;       /* ukuran lebih kecil */
+  margin: 0;             /* hapus margin default */
+  text-align: left;      /* geser ke kiri */
+  color: #7dff7d;        /* warna neon sesuai tema */
+}
+
+/* pindahkan ke atas / kanan */
+.toprow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* judul kiri, logout kanan */
+  width: 100%;                     /* pastikan container full */
+}
+
+/* Judul kiri */
+.toprow h1 {
+  font-size: 24px;
+  margin: 0;
+  flex: 1;  /* biar mengambil space yang tersisa */
+}
+
+/* Logout kanan */
+.logout {
+  width: 100px;            /* lebar tombol */
+  text-align: center;      /* teks di tengah tombol */
+  padding: 6px 12px;
+  background: #ff6b6b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  flex-shrink: 0;          /* jangan mengecil walau flex container sempit */
+}
+
+.main-title {
+  font-size: 24px;       /* ukuran lebih kecil */
+  margin: 0;             /* hapus margin default */
+  text-align: left;      /* rata kiri */
+  color: #7dff7d;        /* warna neon */
+  font-weight: 50;
+}
 body{
     font-family: Arial, sans-serif;
     margin:0;
@@ -14,7 +834,6 @@ body{
     background:#f1f5f9;
     color:#0f172a;
 }
-
 /* ===== HEADER ===== */
 header{
     background:#1e3a8a;
@@ -55,17 +874,7 @@ a.download-btn:hover{
     box-shadow:0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* ===== FOOTER ===== */
-footer{
-    margin-top:50px;
-    padding:15px;
-    background:#e2e8f0;
-    color:#334155;
-    font-size:14px;
-}
-
 </style>
-
 <!-- ===== SCRIPT SAFELINKU ===== -->
 <!-- GANTI API TOKEN DI BAWAH INI -->
 <script type="text/javascript">
@@ -85,12 +894,105 @@ footer{
 ];
 </script>
 <script src="//safelinku.com/js/web-script.js"></script>
-
 </head>
+<body>
+<div class="admin-note-overlay">© 2025 By-𝘿𝙚𝙯𝙕✘𝙈𝙊𝘿𝙎</div>
+<div id="statusBox">
+  FPS: <span id="fps">0</span><br>
+  Signal: <span id="signal">—</span><br>
+  Battery: <span id="battery">—</span><br>
+  User: <span id="userStatus">—</span>
+</div>
+
+  <!-- NEON CLOCK TOP RIGHT -->
+  <div id="clockTopWrap">
+    <div id="clockNeonTop" class="neon-clock">--</div>
+  </div>
+
+<div class="wrap">
+  <div class="card" role="main">
+    <div>
+      <div class="toprow">
+        <img src="https://files.catbox.moe/5pf5s6.jpg" class="title-icon">
+        <h1 class="main-title">𝘿𝙚𝙯𝙕✘𝙈𝙊𝘿𝙎</h1>
+        <div style="margin-left:auto">
+          <button id="logoutBtn" class="logout" style="display:none">Logout</button>
+        </div>
+      </div>
+
+<div class="admin-board">
+  <div class="admin-board-title">☕ 𝙄𝙉𝙁𝙊 𝙎𝙄𝙎𝙏𝙀𝙈</div>
+
+  <div class="admin-board-body">
+    <b>𝘿𝙚𝙯𝙕✘𝙈𝙊𝘿𝙎</b> ᴀᴅᴀʟᴀʜ ᴀᴅᴍɪɴ ᴅᴀʀɪ ᴡᴇʙsɪᴛᴇ ɪɴɪ ᴊᴀɴɢᴀɴ ʟᴜᴘᴀ ᴊᴏɪɴ ᴄʜ, sᴀʟᴜʀᴀɴ ʏᴀɴɢ sᴜᴅᴀʜ ᴀᴅᴍɪɴ ᴛᴀʀᴏ ᴅɪ ʙᴀᴡᴀʜ
+    <span class="hl"> ᴅɪ ᴡᴇʙsɪᴛᴇ ɪɴɪ ᴀᴅᴀ ʙᴇʙᴇʀᴀᴘᴀ ᴍᴇɴᴜ 𝙁𝙄𝙇𝙀 𝙃𝙊𝙇𝙊, 𝘾𝙊𝙉𝙁𝙄𝙂, 𝙈𝙊𝘿𝙎𝘼𝙋𝙆</span>.<br>
+    ᴋᴀᴍᴜ ᴊᴜɢᴀ ʙɪsᴀ ɢᴇɴᴇʀᴀᴛᴇ <span class="hl">𝙆𝙀𝙔 𝙍𝘼𝙉𝘿𝙊𝙈 + 𝙁𝙞𝙡𝙚</span> sᴇᴘᴜᴀs-ɴʏᴀ.
+  </div>
+
+  <div class="admin-board-footer">
+    📩 PIN LOGIN / AKSES FULL<br>
+    DM ADMIN:
+    <a href="https://t.me/dezzreal1" target="_blank">Telegram</a> •
+    <a href="https://t.me/dezzmods" target="_blank">𝐃𝐌 𝐀𝐃𝐌𝐈𝐍</a>
+  </div>
+</div>
+
+        <p class="small">
+         ᴡᴇʟᴄᴏᴍᴇ↔ᴡᴇʟᴄᴏᴍᴇ↔ᴡᴇʟᴄᴏᴍᴇ↔ᴡᴇʟᴄᴏᴍᴇ↔ᴡᴇʟᴄᴏᴍᴇ↔ᴡᴇʟᴄᴏᴍᴇ↔ᴡᴇʟᴄᴏᴍᴇ↔ᴡᴇʟᴄᴏᴍᴇ↔ᴡᴇʟᴄᴏᴍᴇ↔ᴡᴇʟᴄᴏᴍᴇ↔ᴡᴇʟᴄᴏᴍᴇ↔<strong>GET PW DI SINI CLIK START ᴡᴇʟᴄᴏᴍᴇ↔<span class="neon-strike">ᴡᴇʟᴄᴏᴍᴇ↔𝘛𝘰 𝘞𝘦𝘣 𝘿𝙚𝙯𝙕✘𝙈𝙊𝘿𝙎</span>
+        </p>
+
+        <div id="keyDisplay" class="key-display">
+          <div id="keyText">🇨 🇱 🇮 🇨 🇰   ▶🇸 🇹 🇦 🇷 🇹  </div>
+
+          <div class="progress-bar" style="width:100%">
+            <div id="progressFill" class="progress-fill" style="width:0%"></div>
+          </div>
+
+          <div id="timeNote" class="note"></div>
+
+          <div style="margin-top:12px" class="note-strong" id="liveExpireNote"></div>
+        </div>
+
+        <div class="controls">
+          <button id="pickBtn">𝙎𝙏𝘼𝙍𝙏</button>
+          <button id="copyBtn" class="btn-copy">𝘾𝙊𝙋𝙔</button>
+          <button id="shareBtn">𝙎𝙃𝘼𝙍𝙀</button>
+          <button id="qrBtn" class="btn-ghost">𝙌𝙍</button>
+        </div>
+
+        <div id="qrArea" style="display:none;margin-top:12px;text-align:center">
+          <img id="qrImg" src="" alt="QR code" style="width:160px;height:160px;border-radius:10px;background:#fff;padding:6px">
+          <div style="margin-top:8px"><a id="qrDownload" class="btn-ghost" download="key-qr.png">Download QR</a></div>
+        </div>
+      </div>
+
+        <div class="links-grid">
+  </a>
+  <a href="https://lynk.id/dezzreal" target="_blank">
+    <span>🛒</span> Produk
+  </a>
+  <a href="https://youtube.com/@trioshorts145?si=4sL0IFJR2DZq6DR0" target="_blank">
+    <span>▶️</span> YouTube
+  </a>
+  <a href="https://t.me/+nmDgMfjt-t9jYzA1" target="_blank">
+    <span>📢</span> Telegram
+  </a>
+  <a href="https://sociabuzz.com/dezzreal" target="_blank">
+    <span>💰</span> Sociabuzz
+  </a>
+  <a href="https://whatsapp.com/channel/0029Vb7Gl23EFeXuLGF1yB1G" target="_blank">
+    <span>💬</span> WhatsApp Channel
+  </a>
+  <a href="https://youtu.be/8GlH6vkfh5k?si=Aua9Ck34QcVesOLg" target="_blank">
+    <span>🎥</span> Tutorial Holo Web
+  </a>
+  </div>
+ 
+ <div class="admin-board-title">𝙃𝙊𝙇𝙊𝙂𝙍𝘼𝙈  𝘿𝙄 𝙎𝙄𝙉𝙄</div>
+
 <body><header>
 
-    <h1>Website Download File/Mods</h1>
-    <p>Safelinku Versi DezZ</p>
+    <h1>Safelinku Versi DezZ</h1>
 </header><main>
     <h2>Download File Hologram</h2>
     </a>
@@ -268,6 +1170,10 @@ footer{
     ☕ Support
 </a>
 
+<a class="download-btn" href="https://sub4unlock.co/AAD9" target="_blank">
+    BYPASSS<br>PW:-Share_and_suport-
+</a>
+
 <a class="download-btn" href="https://sfl.gl/IrAPa" target="_blank">
     🇮🇳 VPN INDIA APK
 </a>
@@ -293,8 +1199,653 @@ footer{
 <a class="download-btn" href="https://sfl.gl/4tQwg8z" target="_blank">
     Aku lagi sebar DANA Kaget nih! Yuk, sikat segera sebelum melayang 💸💸💸
 </a>
-</main><footer>
-    <p>© 2026 -Dezz</p>   
-</footer>
+
+
+
+
+  <div class="admin-board-title">⚡ 𝙃𝙊𝙇𝙊𝙂𝙍𝘼𝙈 𝙁𝙄𝙇𝙀 𝘾𝙊𝙉𝙁𝙄𝙂 ☟</div>
+<div id="cardList"></div>
+<div id="cardContainer"></div>
+
+<script>
+const items = [
+   {
+    img: "https://files.catbox.moe/lv32ql.png",
+    title: "𝙃𝙊𝙇𝙊𝙂𝙍𝘼𝙈 𝙆𝘼𝙍𝘼𝙆𝙏𝙀𝙍 19𝙆",
+    desc: " 𝚂𝙸𝙻𝙰𝙷𝙺𝙰𝙽 𝙳𝙸 𝚉𝙾𝙾𝙼 𝙿𝙰𝙺𝙴 𝟸𝙹𝙰𝚁𝙸 𝚄𝙽𝚃𝚄𝙺 𝙼𝙴𝙻𝙸𝙷𝙰𝚃 𝙷𝙾𝙻𝙾𝙽𝚈𝙰 ʙᴜʏ ғɪʟᴇ ʜᴏʟᴏ, ɢᴀs ʙᴜʏ ᴄᴜᴍᴀ 19K+, 𝘽𝙞𝙨𝙖 𝘿𝙢 𝙡𝙚𝙬𝙖𝙩 𝙏𝙚𝙡𝙚, 𝙖𝙩𝙖𝙪 𝙠𝙡𝙞𝙘𝙠 𝙡𝙞𝙣𝙠 𝙙𝙞 𝙗𝙖𝙬𝙖𝙝 ??𝙣𝙩𝙪𝙠 𝙤𝙧𝙙𝙚𝙧 𝙡𝙚𝙬𝙖𝙩 𝙒𝙖",
+    link: "https://wa.me/6281324226894?text=*BUY+HOLOGRAM+KARAKTER+19K*",
+    btnText: "𝘽𝙐𝙔"
+  }, 
+  {
+    img: "https://files.catbox.moe/lv32ql.png",
+    title: "𝙃𝙊𝙇𝙊𝙂𝙍𝘼𝙈 𝙎𝙀𝙉𝙅𝘼𝙏𝘼 10𝙆",
+    desc: " 𝚂𝙸𝙻𝙰𝙷𝙺𝙰𝙽 𝙳𝙸 𝚉𝙾𝙾𝙼 𝙿𝙰𝙺𝙴 𝟸𝙹𝙰𝚁𝙸 𝚄𝙽𝚃𝚄𝙺 𝙼𝙴𝙻𝙸𝙷𝙰𝚃 𝙷𝙾𝙻𝙾𝙽𝚈𝙰 ʙᴜʏ ғɪʟᴇ ʜᴏʟᴏ, ɢᴀs ʙᴜʏ ᴄᴜᴍᴀ 10K+, 𝘽𝙞𝙨𝙖 𝘿𝙢 𝙡𝙚𝙬𝙖𝙩 𝙏𝙚𝙡𝙚, 𝙖𝙩𝙖𝙪 𝙠𝙡𝙞𝙘𝙠 𝙡𝙞𝙣𝙠 𝙙𝙞 𝙗𝙖𝙬𝙖𝙝 ??𝙣𝙩𝙪𝙠 𝙤𝙧𝙙𝙚𝙧 𝙡𝙚𝙬𝙖𝙩 𝙒𝙖",
+    link: "https://wa.me/6281324226894?text=*BUY+HOLOGRAM+SENJATA+10K*",
+    btnText: "𝘽𝙐𝙔"
+  }
+
+];
+
+const container = document.getElementById('cardContainer');
+
+items.forEach(item => {
+  const card = document.createElement('div');
+  card.className = 'card-side';
+  card.innerHTML = `
+    <img src="${item.img}" class="card-img">
+    <div class="card-text">
+      <h3>${item.title}</h3>
+      <p>${item.desc}</p>
+      <a href="${item.link}" target="_blank" class="card-btn">
+        ${item.btnText || 'BUKA'}
+      </a>
+    </div>
+  `;
+  container.appendChild(card);
+});
+</script>
+</div>
+</div>
+
+      <!-- Musik login -->
+<audio id="loginMusic" loop></audio>
+
+<script>
+const loginMusics = [
+  "https://files.catbox.moe/0jr72e.mp3",
+  "https://files.catbox.moe/2ntgsx.mp3",
+  "https://files.catbox.moe/ip7i35.mp3", 
+  "https://files.catbox.moe/rxesmk.mp3", 
+  "https://files.catbox.moe/1pl2c5.mp3", 
+  "https://files.catbox.moe/lhz33b.mp3",
+  "https://files.catbox.moe/dwjqgv.mp3",
+  "https://files.catbox.moe/ljblu1.mp3",
+  "https://files.catbox.moe/uhadvj.mp3", 
+  "https://files.catbox.moe/gps49t.mp3"
+];
+
+// Ambil elemen audio
+const audio = document.getElementById('loginMusic');
+
+// Pilih musik random
+const randomIndex = Math.floor(Math.random() * loginMusics.length);
+audio.src = loginMusics[randomIndex];
+</script>
+
+<div id="musicPopup" style="
+  position: fixed;
+  bottom: 600px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(0,0,0,0.85);
+  padding: 14px 22px;
+  border-radius: 12px;
+  color: #00eaff;
+  font-weight: bold;
+  display: none;
+  text-align: center;
+  font-size: 16px;
+  box-shadow: 0 0 15px #F504FF, 0 0 30px #FFEF00;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+">
+  Musik Dimulai 🎵
+</div>
+
+  <!-- LOGIN OVERLAY (neon-glass) -->
+  <div id="loginOverlay" class="login-overlay" style="display:none">
+    <div class="login-card">
+      <div class="login-title">
+        <img src="https://files.catbox.moe/5pf5s6.jpg" class="login-avatar" />
+        <div>
+          <div style="font-weight:9000; font-size:22px;">🔥✨𝘿𝙚𝙯𝙕✘𝙈𝙊𝘿𝙎🜲💐💫ッ</div>
+          <div class="login-note small">⌨︎︎ 𝘌𝘯𝘵𝘦𝘳 𝙐𝙉𝙎𝙀𝙍/𝙋𝘼𝙎𝙎𝙒𝙊𝙍𝘿</div>
+          <div class="login-note small">𝐔𝐍𝐒𝐄𝐑/𝐏𝐀𝐒𝐒𝐖𝐎𝐑𝐃 𝐃𝐌 𝐓𝐄𝐋𝐄𝐆𝐑𝐀𝐌</div>
+          <div class="click" onclick="DMTELE()">➩ 𝘾𝙇𝙄𝙆 𝘿𝙈 🜲</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+  <input id="userInput" class="glass-input" type="text" placeholder="⌨︎︎ ᴇɴᴛᴇʀ ᴜsᴇʀɴᴀᴍᴇ" />
+</div>
+
+      <div style="margin-top:12px">
+        <input id="pinInput" class="glass-input" type="password" placeholder="⌨︎︎ ᴇɴᴛᴇʀ ᴘᴀssᴡᴏʀᴅ" />
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button id="pinSubmit" class="btn">LOGIN</button>
+        <button id="pinCancel" class="btn-ghost">Batal</button>
+      </div>
+
+      <div id="loginMsg" class="small" style="color:#ff6b6b;margin-top:8px;display:none"></div>
+    </div>
+  </div>
+
+
+  <!-- MODAL -->
+  <div id="modalWrap" class="modal-wrap" aria-hidden="true" style="display:none">
+    <div id="modal" class="modal neon-glow">
+      <div class="neon-title" id="modalTitle">GENERATED</div>
+      <div class="modal-key" id="modalKey">-</div>
+      <div class="modal-meta" id="modalMeta">Expired: -</div>
+      <div style="text-align:center;margin-top:12px">
+        <button id="modalClose" class="btn-ghost">Tutup</button>
+        <button id="modalCopy" class="btn">Salin</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* ========== Simple config ========== */
+const VALID_USERS = [
+  { user: "Dezz", pass: "Admin" },
+  { user: "Dezz", pass: "Dezz1" }
+];
+const DURATION_SECONDS = 15; // 15 detik
+const KEYS_POOL = [
+"Unser/Pass Login      UNSER:#UXTH_19K      PASS:#UXTH_19K" 
+];
+
+
+// Ban settings (device-based)
+const MAX_BAD = 3;              // kesalahan total sebelum "ban device"
+const BAN_DURATION_MS = 5*60*1000; // 5 menit
+
+/* ========== Elements ========== */
+const loginOverlay = document.getElementById('loginOverlay');
+const pinInput = document.getElementById('pinInput');
+const userInput = document.getElementById('userInput');
+const pinSubmit = document.getElementById('pinSubmit');
+const pinCancel = document.getElementById('pinCancel');
+const loginMsg = document.getElementById('loginMsg');
+const pickBtn = document.getElementById('pickBtn');
+const copyBtn = document.getElementById('copyBtn');
+const shareBtn = document.getElementById('shareBtn');
+const qrBtn = document.getElementById('qrBtn');
+const qrArea = document.getElementById('qrArea');
+const qrImg = document.getElementById('qrImg');
+const qrDownload = document.getElementById('qrDownload');
+const keyText = document.getElementById('keyText');
+const progressFill = document.getElementById('progressFill');
+const timeNote = document.getElementById('timeNote');
+const logoutBtn = document.getElementById('logoutBtn');
+const modalWrap = document.getElementById('modalWrap');
+const modal = document.getElementById('modal');
+const modalKey = document.getElementById('modalKey');
+const modalMeta = document.getElementById('modalMeta');
+const modalTitle = document.getElementById('modalTitle');
+const modalClose = document.getElementById('modalClose');
+const modalCopy = document.getElementById('modalCopy');
+const liveExpireNote = document.getElementById('liveExpireNote');
+const clockTop = document.getElementById('clockNeonTop');
+
+let lastKey = "";
+let expiryAt = 0;
+let countdownInterval = null;
+
+/* ===== FPS ===== */
+let lastTime = performance.now();
+let frames = 0;
+
+function updateFPS(now){
+  frames++;
+  if(now - lastTime >= 1000){
+    document.getElementById('fps').textContent = frames;
+    frames = 0;
+    lastTime = now;
+  }
+  requestAnimationFrame(updateFPS);
+}
+requestAnimationFrame(updateFPS);
+
+
+/* ===== SIGNAL ===== */
+const signalEl = document.getElementById('signal');
+
+function updateSignal(){
+  if(navigator.onLine){
+    signalEl.textContent = 'Online';
+    signalEl.style.color = '#7dff7d';
+  }else{
+    signalEl.textContent = 'Offline';
+    signalEl.style.color = '#ff6b6b';
+  }
+}
+window.addEventListener('online', updateSignal);
+window.addEventListener('offline', updateSignal);
+updateSignal();
+
+
+/* ===== BATTERY ===== */
+const batteryEl = document.getElementById('battery');
+
+if(navigator.getBattery){
+  navigator.getBattery().then(battery => {
+
+    function updateBattery(){
+      const level = Math.round(battery.level * 100);
+      const charging = battery.charging ? ' ⚡' : '';
+      batteryEl.textContent = level + '%' + charging;
+
+      if(level <= 20){
+        batteryEl.style.color = '#ff6b6b';
+      }else if(level <= 50){
+        batteryEl.style.color = '#facf5a';
+      }else{
+        batteryEl.style.color = '#7dff7d';
+      }
+    }
+
+    updateBattery();
+    battery.addEventListener('levelchange', updateBattery);
+    battery.addEventListener('chargingchange', updateBattery);
+  });
+}else{
+  batteryEl.textContent = 'N/A';
+}
+/* ===== Unser ===== */
+const userStatusEl = document.getElementById('userStatus');
+
+function updateUserStatus(){
+  if(typeof isAuthorized === 'function' && isAuthorized()){
+    userStatusEl.textContent = 'Login';
+    userStatusEl.style.color = '#7dff7d';
+  }else{
+    userStatusEl.textContent = 'Guest';
+    userStatusEl.style.color = '#facf5a';
+  }
+}
+
+updateUserStatus();
+
+/* =========================
+   DEVICE FINGERPRINT (simple, deterministic)
+   ========================= */
+function deviceFingerprint() {
+  // Simple fingerprint using userAgent + screen + timezone
+  const s = navigator.userAgent + '|' + screen.width + 'x' + screen.height + '|' + Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // simple FNV-1a 32-bit
+  let h = 2166136261 >>> 0;
+  for (let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return 'DZ_' + (h>>>0).toString(16);
+}
+//DM TELE
+function DMTELE(){
+  const message = "UNSER AND PASSWORD?";
+  const url = "https://t.me/dezzmods?text=" + encodeURIComponent(message);
+  window.open(url, "_blank");
+}
+
+
+/* =========================
+   BAN / ATTEMPT LOGIC
+   Stored in localStorage as:
+     dezz_bad_{fingerprint} = number
+     dezz_ban_{fingerprint} = timestamp (ms)
+*/
+function getBadKeyName(fp){ return 'dezz_bad_' + fp; }
+function getBanKeyName(fp){ return 'dezz_ban_' + fp; }
+
+function incrementBad(fp){
+  const k = getBadKeyName(fp);
+  const cur = Number(localStorage.getItem(k) || '0') + 1;
+  localStorage.setItem(k, String(cur));
+  if (cur >= MAX_BAD) {
+    const until = Date.now() + BAN_DURATION_MS;
+    localStorage.setItem(getBanKeyName(fp), String(until));
+    return { banned:true, until };
+  }
+  return { banned:false, count:cur };
+}
+
+function isDeviceBanned(fp){
+  const val = localStorage.getItem(getBanKeyName(fp));
+  if(!val) return false;
+  const until = Number(val);
+  if(Date.now() >= until){
+    // expired ban: cleanup
+    localStorage.removeItem(getBanKeyName(fp));
+    localStorage.removeItem(getBadKeyName(fp));
+    return false;
+  }
+  return true;
+}
+
+function getBanRemainingSeconds(fp){
+  const val = localStorage.getItem(getBanKeyName(fp));
+  if(!val) return 0;
+  return Math.max(0, Math.ceil((Number(val) - Date.now())/1000));
+}
+
+/* =========================
+   AUTH (session-only)
+*/
+function isAuthorized(){ return sessionStorage.getItem('dz_authorized') === '1'; }
+function setAuthorized(flag){
+  if(flag) sessionStorage.setItem('dz_authorized','1'); else sessionStorage.removeItem('dz_authorized');
+  loginOverlay.style.display = flag ? 'none' : 'flex';
+  logoutBtn.style.display = flag ? 'inline-block' : 'none';
+}
+setAuthorized(isAuthorized());
+
+pinSubmit.addEventListener('click', ()=> {
+  const username = (userInput.value || '').trim();
+  const v = (pinInput.value || '').trim();
+  const fp = deviceFingerprint();
+
+  if(isDeviceBanned(fp)){
+    const sec = getBanRemainingSeconds(fp);
+    loginMsg.style.display = 'block';
+    loginMsg.textContent = `Perangkat terbanned. Coba lagi dalam ${sec}s`;
+    return;
+  }
+
+  if(!username || !v){
+  loginMsg.style.display = 'block';
+  loginMsg.textContent = 'Username dan Password wajib diisi';
+  return;
+}
+
+  const valid = VALID_USERS.some(u =>
+  u.user === username && u.pass === v
+);
+
+if(valid){
+  userInput.value = '';
+pinInput.value  = '';
+    setAuthorized(true);
+    updateUserStatus(); // 👈 TAMBAHKAN INI
+    loginMsg.style.display='none';
+    localStorage.removeItem(getBadKeyName(fp));
+
+    const music = document.getElementById('loginMusic');
+const popup = document.getElementById('musicPopup');
+
+function showMusicPopup() {
+  popup.style.display = 'block';
+  setTimeout(() => {
+    popup.style.opacity = '1';
+    popup.style.transform = 'translateX(-50%) translateY(0)';
+  }, 100); // animasi muncul halus
+
+  // otomatis hilang setelah 3 detik
+  setTimeout(() => {
+    popup.style.opacity = '1';
+    popup.style.transform = 'translateX(-50%) translateY(70px)';
+    setTimeout(() => popup.style.display = 'none', 1000); // tunggu animasi hilang
+  }, 3000);
+}
+
+// contoh pemanggilan saat login sukses
+music.play().then(() => {
+  showMusicPopup();
+}).catch(() => {
+  // fallback autoplay gagal
+  popup.textContent = "Klik untuk memulai musik 🎵";
+  popup.style.display = 'block';
+  setTimeout(() => popup.style.display = 'none', 5000);
+});
+  } else {
+    loginMsg.style.display='block';
+    loginMsg.textContent='PIN salah!';
+    pinInput.animate([{ transform: 'translateX(-6px)'},{ transform: 'translateX(6px)'},{ transform: 'translateX(0)' }], { duration: 280, easing:'ease' });
+    const r = incrementBad(fp);
+    if(r.banned){
+      loginMsg.textContent = 'Perangkat dibanned sementara karena terlalu banyak percobaan.';
+    } else {
+      loginMsg.textContent += ` (${r.count}/${MAX_BAD})`;
+    }
+  }
+});  
+pinCancel.addEventListener('click', ()=>{
+  if(!isAuthorized()){
+    loginMsg.style.display = 'block';
+    loginMsg.textContent = 'Login diperlukan';
+  }
+});
+logoutBtn.addEventListener('click', ()=> setAuthorized(false));
+
+/* =========================
+   THEMES
+*/
+const THEMES = [
+  { bg1:'#000000', bg2:'#000000', accent:'#7dff7d' },   // neon green
+  { bg1:'#000000', bg2:'#000000', accent:'#b47dff' },   // neon purple
+  { bg1:'#000000', bg2:'#000000', accent:'#4bff4b' },   // matrix green
+  { bg1:'#000000', bg2:'#000000', accent:'#78d7ff' },   // blue ice
+  { bg1:'#000000', bg2:'#000000', accent:'#ff6b6b' },   // red blood
+  { bg1:'#000000', bg2:'#000000', accent:'#7df0c4' },   // emerald
+  { bg1:'#000000', bg2:'#000000', accent:'#ff78d7' },   // pink neon
+  { bg1:'#000000', bg2:'#000000', accent:'#ffffff' },   // white neon
+  { bg1:'#000000', bg2:'#000000', accent:'#00a8ff' },   // deep blue
+  { bg1:'#000000', bg2:'#000000', accent:'#f2f7a1' },   // galaxy purple
+  { bg1:'#000000', bg2:'#000000', accent:'#ff4c29' },   // orange fire
+  { bg1:'#000000', bg2:'#000000', accent:'#facf5a' },   // yellow neon
+  { bg1:'#000000', bg2:'#000000', accent:'#52ff81' },   // green neon
+  { bg1:'#000000', bg2:'#000000', accent:'#e0e1dd' },   // steel white
+  { bg1:'#000000', bg2:'#000000', accent:'#cfcfcf' },   // metal chrome
+  { bg1:'#000000', bg2:'#000000', accent:'#64FF35' },   // 𝘿𝙚𝙯𝙕✘𝙈𝙊𝘿𝙎
+];
+
+function applyTheme(index){
+  const t = THEMES[index];
+  if(!t) return;
+
+  document.documentElement.style.setProperty('--bg1', t.bg1);
+  document.documentElement.style.setProperty('--bg2', t.bg2);
+  document.documentElement.style.setProperty('--accent', t.accent);
+
+  localStorage.setItem('themeIndex', index);
+}
+applyTheme(THEMES.length - 1);
+
+function applyTheme(theme){
+  document.body.style.background = `linear-gradient(135deg, ${theme.bg1}, ${theme.bg2})`;
+  document.documentElement.style.setProperty('--accent', theme.accent);
+  localStorage.setItem('dezz_theme_index', String(THEMES.indexOf(theme)));
+}
+
+function randomTheme(){
+  const t = THEMES[Math.floor(Math.random()*THEMES.length)];
+  applyTheme(t);
+}
+
+
+window.addEventListener('load', ()=>{
+  const idx = Number(localStorage.getItem('dezz_theme_index'));
+  if(!isNaN(idx) && THEMES[idx]) applyTheme(THEMES[idx]); else randomTheme();
+});
+
+
+/* ========== Expiry / countdown handling ========== */
+function startLocalExpiry(seconds){
+  // clear existing
+  if(countdownInterval) clearInterval(countdownInterval);
+  expiryAt = Date.now() + seconds*1000;
+  // show button blinking
+  copyBtn.classList.add('blink');
+  copyBtn.classList.remove('disabled');
+
+  countdownInterval = setInterval(()=>{
+    const leftMs = expiryAt - Date.now();
+    if(leftMs <= 0){
+      clearInterval(countdownInterval);
+      expireKeyNow();
+      return;
+    }
+    const sec = Math.floor(leftMs/1000);
+    timeNote.textContent = `Sisa waktu: ${formatTimeLeft(sec)}`;
+    liveExpireNote.textContent = `aktif sampai: ${new Date(expiryAt).toLocaleString()}`;
+  }, 250); // more responsive
+}
+
+function expireKeyNow(){
+  lastKey = "";
+  expiryAt = 0;
+  keyText.textContent = 'KEY EXPIRED';
+  timeNote.textContent = 'SILAHKAN START ULANG, CLICK START';
+  liveExpireNote.textContent = '';
+  progressFill.style.width = '0%';
+  copyBtn.classList.remove('blink');
+  copyBtn.classList.add('disabled');
+  pickBtn.disabled = false;
+  // close modal if open
+  if(modal.classList.contains('show')){
+    modal.classList.remove('show');
+    setTimeout(()=> modalWrap.style.display='none',240);
+  }
+  // small pulse to show expired
+  keyText.animate([{opacity:1},{opacity:0.4},{opacity:1}],{duration:460});
+}
+
+function formatTimeLeft(sec){
+  const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), s = sec%60;
+  if(h>0) return `${h}h ${m}m ${s}s`;
+  if(m>0) return `${m}m ${s}s`;
+  return `${s}s`;
+}
+
+/* ========== Generate flow ========== */
+async function showGenerateProgressAndReveal(){
+  progressFill.style.transition = 'width 400ms linear';
+  progressFill.style.width = '20%';
+  keyText.textContent = 'GENERATING…';
+  timeNote.textContent = 'Memproses...';
+  const steps = [1,2,3,4,5,10,15,20,25,30,40,50,60,75,80,90,100];
+  for(let i=0;i<steps.length;i++){
+    await new Promise(r=>setTimeout(r, 300 + Math.random()*260));
+    progressFill.style.width = steps[i] + '%';
+  }
+  await new Promise(r=>setTimeout(r, 280));
+  pickBtn.disabled = false;
+  revealKeyModal();
+}
+
+function revealKeyModal(){
+  const expiresAt = new Date(Date.now() + DURATION_SECONDS*1000);
+  modalKey.textContent = lastKey || 'UNKNOWN';
+  modalMeta.textContent = `Expired: ${expiresAt.getFullYear()}-${String(expiresAt.getMonth()+1).padStart(2,'0')}-${String(expiresAt.getDate()).padStart(2,'0')} ${String(expiresAt.getHours()).padStart(2,'0')}:${String(expiresAt.getMinutes()).padStart(2,'0')}`;
+  modalTitle.textContent = 'HASIL GENERATED';
+  modalWrap.style.display = 'flex';
+  setTimeout(()=> modal.classList.add('show'), 20);
+  modalWrap.setAttribute('aria-hidden','false');
+  startLocalExpiry(DURATION_SECONDS);
+}
+
+/* pick random key */
+pickBtn.addEventListener('click', ()=>{
+  const fp = deviceFingerprint();
+  if(isDeviceBanned(fp)){
+    const sec = getBanRemainingSeconds(fp);
+    alert(`Perangkat terbanned. Coba lagi dalam ${sec}s`);
+    return;
+  }
+  if(!isAuthorized()){
+    loginOverlay.style.display = 'flex'; loginMsg.style.display='none'; pinInput.value=''; pinInput.focus(); return;
+  }
+  pickBtn.disabled = true;
+  const idx = Math.floor(Math.random()*KEYS_POOL.length);
+  lastKey = KEYS_POOL[idx];
+  keyText.textContent = lastKey;
+  timeNote.textContent = '';
+  progressFill.style.width = '3%';
+  showGenerateProgressAndReveal();
+  // save history
+  let h = JSON.parse(localStorage.getItem('dezz_history') || '[]');
+  h.unshift(lastKey); h = [...new Set(h)]; localStorage.setItem('dezz_history', JSON.stringify(h.slice(0,40)));
+  historyList.textContent = h.length ? h.slice(0,1).join(' · ') : '—';
+});
+
+/* copy button */
+copyBtn.addEventListener('click', async ()=>{
+  if(!lastKey) return alert('Tidak ada key untuk disalin!');
+  try{
+    await navigator.clipboard.writeText(lastKey);
+    copyBtn.animate([{transform:'scale(1)'},{transform:'scale(1.05)'},{transform:'scale(1)'}],{duration:220});
+    const prev = copyBtn.textContent;
+    copyBtn.textContent = 'COPIED';
+    setTimeout(()=> copyBtn.textContent = prev, 900);
+  } catch(e){ alert('Gagal salin.'); }
+});
+
+/* share & qr */
+shareBtn.addEventListener('click', async ()=>{
+  if(!lastKey) return alert('Tidak ada key untuk dibagikan!');
+  if(navigator.share){ try{ await navigator.share({text:lastKey}); }catch(e){} } else alert('Share tidak didukung di browser ini.');
+});
+qrBtn.addEventListener('click', ()=>{
+  if(!lastKey) return alert('Tidak ada key untuk QR!');
+  const url = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(lastKey);
+  qrImg.src = url; qrDownload.href = url; qrArea.style.display = 'block';
+});
+
+/* modal controls */
+modalClose.addEventListener('click', ()=>{ modal.classList.remove('show'); setTimeout(()=> modalWrap.style.display='none',240); });
+modalCopy.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(modalKey.textContent); alert('✔ Key disalin!'); }catch(e){ alert('Gagal salin.'); }});
+
+/* =========================
+   CLOCKS
+*/
+function updateClocks(){
+  const now = new Date();
+  const d = String(now.getDate()).padStart(2,'0');
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const y = now.getFullYear();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  const ss = String(now.getSeconds()).padStart(2,'0');
+  clockTop.textContent = `${d}-${m}-${y} | ${hh}:${mm}:${ss}`;
+}
+setInterval(updateClocks,1000);
+updateClocks();
+
+/* =========================
+   INITIAL STATE & BAN CHECK
+*/
+function init(){
+  // copy button disabled initially
+  copyBtn.classList.add('disabled');
+
+  // If device banned -> show overlay message and disable important buttons
+  const fp = deviceFingerprint();
+  if(isDeviceBanned(fp)){
+    const sec = getBanRemainingSeconds(fp);
+    // Disable UI
+    pickBtn.disabled = true;
+    copyBtn.classList.add('disabled');
+    loginOverlay.style.display = 'none';
+    alert(`Perangkat Anda terbanned sementara. Coba lagi dalam ${sec} detik`);
+  } else {
+    // Open login overlay if not authorized
+    if(!isAuthorized()) loginOverlay.style.display = 'flex';
+  }
+}
+init();
+
+/* =========================
+   Optional: simple checkKey UI (if you previously had one)
+   Provide a small checker if user wants to paste key and verify against pool (not required).
+*/
+function checkKeyAgainstPool(value){
+  return KEYS_POOL.includes(value);
+}
+
+/* Expose few helpers to console for debugging (optional) */
+window.DEZZ = {
+  fp: deviceFingerprint(),
+  isBanned: () => isDeviceBanned(deviceFingerprint()),
+  banRemaining: () => getBanRemainingSeconds(deviceFingerprint()),
+  unban: () => { localStorage.removeItem(getBanKeyName(deviceFingerprint())); localStorage.removeItem(getBadKeyName(deviceFingerprint())); alert('Unbanned locally'); }
+}
+
+const toast = document.getElementById('toast');
+const showToastBtn = document.getElementById('showToastBtn');
+
+showToastBtn.addEventListener('click', ()=>{
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 5000); // popup hilang setelah 5 detik
+});
+</script>
 </body>
 </html>
